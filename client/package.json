@@ -1,0 +1,27 @@
+{
+  "name": "minesweeper-react-redux",
+  "version": "1.0.0",
+  "description": "A simple Minesweeper in React/Redux",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:cdroulers/minesweeper-react-redux.git"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --require ts-node/register --require ./test/test_helper.ts  \"test/**/*spec@(.ts|.tsx)\" || true",
+    "test:watch": "npm run test -- --watch"
+  },
+  "keywords": [],
+  "author": "Christian Droulers <droulers.christian@gmail.com>",
+  "license": "Unlicense",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-immutable": "^1.5.4",
+    "mocha": "^2.4.5",
+    "ts-node": "^0.7.1",
+    "typescript": "^1.8.9"
+  },
+  "dependencies": {
+    "immutable": "^3.7.6"
+  }
+}

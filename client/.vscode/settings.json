@@ -1,0 +1,19 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+  // Controls if the editor will insert spaces for tabs. Accepted values:  "auto", true, false. If set to "auto", the value will be guessed when a file is opened.
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+
+  // Configure glob patterns for excluding files and folders.
+  "files.exclude": {
+    "**/.git": true,
+    "**/node_modules/**": true,
+    "test/*.js": true,
+    "test/*.js.map": true,
+    "src/*.js": true,
+    "src/*.js.map": true
+  },
+
+  // When enabled, will trim trailing whitespace when you save a file.
+  "files.trimTrailingWhitespace": true
+}
