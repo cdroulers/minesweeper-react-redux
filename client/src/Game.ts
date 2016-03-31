@@ -1,4 +1,3 @@
-import {Map, fromJS} from "immutable";
 import {ICell} from "./Cell";
 
 export interface IGameConfiguration {
@@ -14,27 +13,27 @@ export interface ICoordinates {
 export interface IGame {
   victory?: boolean;
   config?: IGameConfiguration;
-  cells?: Map<string, ICell>
+  cells?: { [key: string]: ICell }
 }
 
 export function beginGame(state: IGame, config: IGameConfiguration): IGame {
-  var cells = {};
+  var cells: { [key: string]: ICell } = {};
   for (var x = 1; x <= config.coords.x; x++) {
     for (var y = 1; y <= config.coords.y; y++) {
       const key = _getKey({ x: x, y: y });
       cells[key] = {
         has_mine: false,
         is_hidden: true,
-        neibhoring_mines: 0
+        neighboring_mines: 0
       }
     }
   }
 
-  return fromJS({
+  return {
     victory: null,
     config,
     cells: cells
-  });
+  };
 }
 
 function _getKey(coords: ICoordinates) {
@@ -54,19 +53,11 @@ export function getNeighbors(config: IGameConfiguration, coords: ICoordinates): 
 }
 
 export function addMine(state: IGame, coords: ICoordinates): IGame {
-  var newState = (<Map<any, any>>state).updateIn(
-    ["cells", _getKey(coords), "has_mine"],
-    false,
-    x => true);
+  var newCells = Object.assign({}, state.cells, {});
+  newCells[_getKey(coords)].has_mine = true;
 
-      console.log(state.config, newState.get("config"));
   const neighbors = getNeighbors(state.config, coords);
-  neighbors.forEach(n => {
-    newState = newState.updateIn(
-      ["cells", _getKey(n), "neibhoring_mines"],
-      0,
-      x => x + 1)
-  });
+  neighbors.forEach(n => newCells[_getKey(n)].neighboring_mines += 1);
 
-  return newState;
+  return Object.assign({}, state, { cells: newCells })
 }

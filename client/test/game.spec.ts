@@ -1,7 +1,7 @@
-import {Map, fromJS} from "immutable";
 import {expect} from 'chai';
 
 import {
+  IGame,
   IGameConfiguration,
   beginGame,
   addMine,
@@ -60,13 +60,13 @@ describe("Get neighbors", () => {
 describe("A game", () => {
   describe("Begin a game", () => {
     it("Has cells", () => {
-      const state = Map();
+      const state = {};
 
       const nextState = beginGame(state, {
         coords: { x: 1, y: 1 },
         mines: 0
       });
-      expect(nextState).to.equal(fromJS({
+      expect(nextState).to.deep.equal({
         victory: null,
         config: {
           coords: { x: 1, y: 1 },
@@ -76,51 +76,44 @@ describe("A game", () => {
           "1,1": {
             has_mine: false,
             is_hidden: true,
-            neibhoring_mines: 0
-          }
-        }
-      }));
-    });
-  });
-
-  describe("Add a mine", () => {
-    it("Cell has changed", () => {
-      const state = fromJS({
-        victory: null,
-        config: {
-          coords: { x: 1, y: 2 },
-          mines: 0
-        },
-        cells: {
-          "1,1": {
-            has_mine: false,
-            is_hidden: true,
-            neibhoring_mines: 0
-          },
-          "1,2": {
-            has_mine: false,
-            is_hidden: true,
-            neibhoring_mines: 0
+            neighboring_mines: 0
           }
         }
       });
+    });
+  });
 
-      const nextState = addMine(state, { x: 1, y: 1 });
-      expect(nextState).to.equal(fromJS({
-        victory: null,
-        cells: {
-          "1,1": {
-            has_mine: true,
-            is_hidden: true,
-            neibhoring_mines: 0
-          },
-          "1,2": {
-            has_mine: false,
-            is_hidden: true,
-            neibhoring_mines: 1
-          }
+  describe("Add two mine", () => {
+    it("Cells have changed", () => {
+      const state = beginGame({}, {
+        coords: { x: 2, y: 2 },
+        mines: 0
+      });
+
+      const tempState = addMine(state, { x: 1, y: 1 });
+      const nextState = addMine(tempState, { x: 1, y: 2 });
+      expect(nextState.cells).to.deep.equal({
+        "1,1": {
+          has_mine: true,
+          is_hidden: true,
+          neighboring_mines: 1
+        },
+        "1,2": {
+          has_mine: true,
+          is_hidden: true,
+          neighboring_mines: 1
+        },
+        "2,1": {
+          has_mine: false,
+          is_hidden: true,
+          neighboring_mines: 2
+        },
+        "2,2": {
+          has_mine: false,
+          is_hidden: true,
+          neighboring_mines: 2
         }
-      }));
+      });
     });
   });
 });

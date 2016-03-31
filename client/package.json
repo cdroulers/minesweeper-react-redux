@@ -16,12 +16,8 @@
   "license": "Unlicense",
   "devDependencies": {
     "chai": "^3.5.0",
-    "chai-immutable": "^1.5.4",
     "mocha": "^2.4.5",
     "ts-node": "^0.7.1",
     "typescript": "^1.8.9"
-  },
-  "dependencies": {
-    "immutable": "^3.7.6"
   }
 }
